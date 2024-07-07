@@ -5,8 +5,13 @@
     <classes>
       <class name="HomePage.HomePageTestCases">
         <methods>
+          <include name="CheckDepatureAndReturnDate"/>
           <include name="mySetup"/>
+          <include name="CheckTheCurrenyIsCorrect"/>
+          <include name="CheckTheContactNumber"/>
+          <include name="CheckHotel"/>
           <include name="CheckTheDefualtLanguageIsCorect"/>
+          <include name="CheckQitafLogo"/>
         </methods>
       </class> <!-- HomePage.HomePageTestCases -->
     </classes>

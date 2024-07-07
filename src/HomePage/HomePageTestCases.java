@@ -1,5 +1,7 @@
 package HomePage;
 
+import java.time.LocalDate;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeTest;
@@ -51,4 +53,42 @@ public class HomePageTestCases extends Parameters{
 		myAssert.assertEquals(ActualNumber, ExpectedNumber);
 		
 	}
+
+@Test 
+
+public void CheckQitafLogo () {
+	
+	WebElement Qitaflogo=driver.findElement(By.xpath("//div[@class='sc-fihHvN eYrDjb']//*[name()='svg']"));
+	boolean ActualReslt=Qitaflogo.isDisplayed();
+	myAssert.assertEquals(ActualReslt, true);
+}
+
+@Test
+ 
+public void CheckHotel()
+{
+	WebElement HotelTab=driver.findElement(By.id("uncontrolled-tab-example-tab-hotels"));
+	String ActualResult=HotelTab.getAttribute("aria-selected");
+	myAssert.assertEquals(ActualResult, "false");
+
+}
+
+@Test
+
+public void CheckDepatureAndReturnDate() {
+	
+	LocalDate today=LocalDate.now();
+	int tomorrow = today.plusDays(1).getDayOfMonth();
+	int theDayAfterTomorrow=today.plusDays(2).getDayOfMonth();
+	
+	String TheDepartureDate=driver.findElement(By.cssSelector("div[class='sc-iHhHRJ sc-kqlzXE blwiEW'] span[class='sc-cPuPxo LiroG']")).getText();
+	int TheDepartureDateAsNumer=Integer.parseInt(TheDepartureDate);
+	
+	String TheReturnDate=driver.findElement(By.cssSelector("div[class='sc-iHhHRJ sc-kqlzXE blwiEW'] span[class='sc-cPuPxo LiroG']")).getText();
+	int TheReturnDateAsNumber=Integer.parseInt(TheReturnDate);
+	
+	myAssert.assertEquals(TheDepartureDateAsNumer, tomorrow);
+	myAssert.assertEquals(TheReturnDateAsNumber, theDayAfterTomorrow);
+	
+}
 }
