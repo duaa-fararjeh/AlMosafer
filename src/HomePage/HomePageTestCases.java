@@ -31,7 +31,7 @@ public class HomePageTestCases extends Parameters{
 	public void CheckTheDefualtLanguageIsCorect () {
 		
 		String ActualLanguage=driver.findElement(By.tagName("html")).getAttribute("lang");
-		myAssert.assertEquals(ActualLanguage, ExpectedLanguage);
+		myAssert.assertEquals(ActualLanguage, ExpectedEnglishLanguage);
 		
 	}
 
@@ -75,20 +75,63 @@ public void CheckHotel()
 
 @Test
 
-public void CheckDepatureAndReturnDate() {
+public void checkDepatureAndReturnDate() {
+
+	// we create an object called today of the class of local date 
+			LocalDate today = LocalDate.now();
+
+			// from the same class (localdate) we extracted the date plus 1 (and the results
+			// we need only the day of the month we don't need the whole date for example
+			// today is 18 + 1 = 19 i got that 19)
+			int tomorrow = today.plusDays(1).getDayOfMonth();
+			// from the same class (localdate) we extracted the date plus 2 (and the results
+			// we need only the day of the month we don't need the whole date for example
+			// today is 18 + 2 = 20 i got that 20)
+			int theDayAfterTomorrow = today.plusDays(2).getDayOfMonth();
+
+			// we visited the website and we got the depature date and the return date as
+			// webelements and from those webelements we extracted the String (
+			// getTextMethod())
+			String ActualDepatureDateOnTheWebSite = driver
+					.findElement(By.cssSelector("div[class='sc-iHhHRJ sc-kqlzXE gmaGJq'] span[class='sc-cPuPxo dVqOVe']"))
+					.getText();
+			String ActualReturnDateOnTheWebSite = driver
+					.findElement(By.cssSelector("div[class='sc-iHhHRJ sc-OxbzP bkqiMc'] span[class='sc-cPuPxo dVqOVe']"))
+					.getText();
+			
+			// we need to convert the String to integer through Integer.parseInt() and we named the variables with 
+			// AsNumber to know that the string now is as an integer 
+
+			int ActualReturnDateOnTheWebsiteAsNumber = Integer.parseInt(ActualReturnDateOnTheWebSite);
+			int ActualDepatureDateOnTheWebsiteAsNumber = Integer.parseInt(ActualDepatureDateOnTheWebSite);
+
+			
+			// we do our assertion by compare 2 integer together ( actualdepaturedate = tomorrow ) 
+			// and actual returndate = thedayafterTomorrow
+			myAssert.assertEquals(ActualDepatureDateOnTheWebsiteAsNumber, tomorrow);
+			myAssert.assertEquals(ActualReturnDateOnTheWebsiteAsNumber, theDayAfterTomorrow);
+
+		}
+
+@Test
+public void ChangeLanguageRandomly() throws InterruptedException {
 	
-	LocalDate today=LocalDate.now();
-	int tomorrow = today.plusDays(1).getDayOfMonth();
-	int theDayAfterTomorrow=today.plusDays(2).getDayOfMonth();
+	driver.get(websites[randomWebsite]);
 	
-	String TheDepartureDate=driver.findElement(By.cssSelector("div[class='sc-iHhHRJ sc-kqlzXE blwiEW'] span[class='sc-cPuPxo LiroG']")).getText();
-	int TheDepartureDateAsNumer=Integer.parseInt(TheDepartureDate);
+	if (driver.getCurrentUrl().contains("en")) {
+		
+		String ActualLanguage=driver.findElement(By.tagName("html")).getAttribute("lang");
+		myAssert.assertEquals(ActualLanguage, ExpectedEnglishLanguage);
+		
+	}else {
+		
+		String ActualLanguage=driver.findElement(By.tagName("html")).getAttribute("lang");
+		myAssert.assertEquals(ActualLanguage, ExpectedArabicLanguage);
+			
+			
+		}
+	}
 	
-	String TheReturnDate=driver.findElement(By.cssSelector("div[class='sc-iHhHRJ sc-kqlzXE blwiEW'] span[class='sc-cPuPxo LiroG']")).getText();
-	int TheReturnDateAsNumber=Integer.parseInt(TheReturnDate);
-	
-	myAssert.assertEquals(TheDepartureDateAsNumer, tomorrow);
-	myAssert.assertEquals(TheReturnDateAsNumber, theDayAfterTomorrow);
 	
 }
-}
+
